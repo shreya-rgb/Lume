@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-playfair: "Playfair Display", serif;
+  --font-sans: "DM Sans", sans-serif;
+  --color-primary: #C9956A;
+  --color-primary-dark: #b07d54;
+  --color-secondary: #E8D5C4;
+  --color-foreground: #2C2C2C;
+  --color-background: #FDF8F5;
+}
+
+:root {
+  --background: #fdf8f5;
+  --foreground: #2c2c2c;
+  --primary: #c9956a;
+  --secondary: #e8d5c4;
+}
+
+.dark {
+  --background: #121212;
+  --foreground: #f0e8e0;
+  --primary: #c9956a;
+  --secondary: #3a2e28;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: "DM Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #e8d5c4;
+  border-radius: 3px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #3a2e28;
+}
+
+/* Prose / markdown styles */
+.prose-lume {
+  line-height: 1.7;
+}
+.prose-lume p {
+  margin-bottom: 0.75rem;
+}
+.prose-lume ul,
+.prose-lume ol {
+  padding-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.prose-lume li {
+  margin-bottom: 0.25rem;
+}
+.prose-lume strong {
+  font-weight: 600;
+  color: #c9956a;
+}
+.dark .prose-lume strong {
+  color: #e0a87a;
+}
+.prose-lume table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+.prose-lume th,
+.prose-lume td {
+  border: 1px solid #e8d5c4;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+.prose-lume th {
+  background: #f5ede4;
+  font-weight: 600;
+}
+.dark .prose-lume th {
+  background: #2a1f1a;
+}
+.dark .prose-lume th,
+.dark .prose-lume td {
+  border-color: #3a2e28;
+}
+.prose-lume code {
+  background: #f5ede4;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+.dark .prose-lume code {
+  background: #2a1f1a;
+}
+.prose-lume pre {
+  background: #2c2c2c;
+  color: #f0e8e0;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 0.75rem;
+}
+
+/* Gradient hero */
+.hero-gradient {
+  background: linear-gradient(135deg, #fdf8f5 0%, #f5e6d8 40%, #e8d5c4 100%);
+}
+.dark .hero-gradient {
+  background: linear-gradient(135deg, #1a1210 0%, #2a1f1a 40%, #1e1510 100%);
+}
+
+/* Shimmer animation for typing indicator */
+@keyframes shimmer-dot {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.typing-dot:nth-child(1) { animation: shimmer-dot 1.2s ease-in-out infinite 0s; }
+.typing-dot:nth-child(2) { animation: shimmer-dot 1.2s ease-in-out infinite 0.2s; }
+.typing-dot:nth-child(3) { animation: shimmer-dot 1.2s ease-in-out infinite 0.4s; }

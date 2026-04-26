@@ -38,8 +38,8 @@ export async function POST(req: Request) {
       return new Response(JSON.stringify({ error: "Invalid request" }), { status: 400 });
     }
 
-    // Limit message history to last 20 to prevent abuse
-    const trimmedMessages = messages.slice(-20);
+    // Limit message history to last 10 to reduce context size and speed up response
+    const trimmedMessages = messages.slice(-10);
 
     // Validate each message
     for (const msg of trimmedMessages) {
@@ -82,22 +82,21 @@ export async function POST(req: Request) {
       }
     );
 
-    // Save user message to DB
+    // Save user message to DB — non-blocking, run in background
     if (sessionId) {
       const lastMsg = messages[messages.length - 1];
       if (lastMsg?.role === "user") {
-        await supabase.from("messages").insert({
-          session_id: sessionId,
-          role: "user",
-          content: lastMsg.content,
-          image_url: body.imageUrl ?? null,
-        });
-
-        // Update session timestamp
-        await supabase
-          .from("chat_sessions")
-          .update({ updated_at: new Date().toISOString() })
-          .eq("id", sessionId);
+        Promise.all([
+          supabase.from("messages").insert({
+            session_id: sessionId,
+            role: "user",
+            content: lastMsg.content,
+            image_url: body.imageUrl ?? null,
+          }),
+          supabase.from("chat_sessions")
+            .update({ updated_at: new Date().toISOString() })
+            .eq("id", sessionId),
+        ]).catch(() => {});
       }
     }
 
@@ -107,7 +106,7 @@ export async function POST(req: Request) {
       model: openrouter("openrouter/free"),
       system: systemPrompt,
       messages: formattedMessages,
-      maxOutputTokens: 1024,
+      maxOutputTokens: 600,
       onFinish: async ({ text }) => {
         // Save assistant response to DB
         if (sessionId && text) {

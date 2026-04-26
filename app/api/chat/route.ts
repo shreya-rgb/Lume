@@ -107,7 +107,7 @@ export async function POST(req: Request) {
       model: openrouter("openrouter/free"),
       system: systemPrompt,
       messages: formattedMessages,
-      maxTokens: 1024,
+      maxOutputTokens: 1024,
       onFinish: async ({ text }) => {
         // Save assistant response to DB
         if (sessionId && text) {
